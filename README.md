@@ -4,9 +4,9 @@ A modern, responsive e-commerce application built with Next.js, React, and Tailw
 
 ## 🚀 Live Demo
 
-**Live Demo:** [https://whatbytes-demo.vercel.app](https://whatbytes-demo.vercel.app)
+**Live Demo:** [https://whatbytes1.vercel.app/]
 
-> ⚠️ *Note: The live demo uses the DummyJSON API for product data. Some features may have limitations based on the free API tier.*
+> ⚠️ _Note: The live demo uses the DummyJSON API for product data. Some features may have limitations based on the free API tier._
 
 ## 📋 Features
 
@@ -30,6 +30,7 @@ A modern, responsive e-commerce application built with Next.js, React, and Tailw
 ## 📡 API Endpoints
 
 ### Products API
+
 - **Base URL**: `https://dummyjson.com/products`
 - **Get All Products**: `GET /products`
 - **Get Single Product**: `GET /products/{id}`
@@ -38,6 +39,7 @@ A modern, responsive e-commerce application built with Next.js, React, and Tailw
 - **Filter by Category**: `GET /products/category/{category}`
 
 ### Response Format
+
 ```json
 {
   "products": [
@@ -83,23 +85,27 @@ src/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/whatbytes.git
    cd whatbytes
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Run the development server**
+
    ```bash
    npm run dev
    ```
@@ -124,6 +130,7 @@ npm start
 ## 🛒 Cart Functionality
 
 ### Features
+
 - **Add to Cart**: Items are added with success toast notifications
 - **Quantity Updates**: Increment/decrement with real-time price updates
 - **Remove Items**: Delete functionality with confirmation toast
@@ -131,35 +138,38 @@ npm start
 - **Price Calculations**: Automatic subtotal, tax (10%), and total calculations
 
 ### Cart Store API
+
 ```javascript
 // Add item to cart
-addToCart(product)
+addToCart(product);
 
 // Update item quantity
-updateQuantity(id, quantity)
+updateQuantity(id, quantity);
 
 // Remove item from cart
-removeItem(id)
+removeItem(id);
 
 // Clear entire cart
-clearCart()
+clearCart();
 
 // Get total items count
-getTotalItems()
+getTotalItems();
 
 // Get total price
-getTotalPrice()
+getTotalPrice();
 ```
 
 ## 🎨 Design System
 
 ### Color Scheme
+
 - **Primary**: Blue 600 (#2563eb)
 - **Success**: Green 500 (#10b981)
 - **Error**: Red 500 (#ef4444)
 - **Gray Scale**: Various shades for text and backgrounds
 
 ### Typography
+
 - **Headings**: Geist Sans font family
 - **Body**: Geist Sans with antialiasing
 - **Responsive**: Smaller text sizes on mobile devices
@@ -167,6 +177,7 @@ getTotalPrice()
 ## 🔧 Configuration
 
 ### Environment Variables
+
 Create a `.env.local` file for environment-specific settings:
 
 ```env
@@ -174,9 +185,11 @@ NEXT_PUBLIC_API_URL=https://dummyjson.com
 ```
 
 ### Tailwind Configuration
+
 The project uses Tailwind CSS 4.0 with responsive breakpoints:
+
 - **Mobile**: < 640px
-- **Tablet**: 640px - 1024px  
+- **Tablet**: 640px - 1024px
 - **Desktop**: > 1024px
 
 ## 🚦 Development Scripts

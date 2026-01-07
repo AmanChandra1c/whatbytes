@@ -50,7 +50,7 @@ export default function Header({ searchQuery, setSearchQuery }) {
           <div className="">
             <img
               className="w-12 h-12 rounded-full"
-              src="/avtar.png"
+              src="/Avtar.png"
               alt="WhatBytes"
             />
           </div>
