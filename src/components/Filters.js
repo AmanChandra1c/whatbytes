@@ -25,7 +25,6 @@ export default function Filters({
         </button>
       </div>
 
-      {/* Mobile Filter Overlay */}
       {isOpen && (
         <div className="lg:hidden fixed inset-0 z-50 bg-black bg-opacity-50">
           <div className="fixed left-0 top-0 h-full w-80 bg-white shadow-xl">
@@ -40,7 +39,6 @@ export default function Filters({
             </div>
             
             <div className="p-6 overflow-y-auto h-full pb-20">
-              {/* Category Filter */}
               <div className="mb-8">
                 <h3 className="text-sm font-medium text-gray-900 mb-3">Category</h3>
                 <div className="space-y-2">
@@ -71,7 +69,6 @@ export default function Filters({
                 </div>
               </div>
 
-              {/* Price Range Filter */}
               <div className="mb-8">
                 <h3 className="text-sm font-medium text-gray-900 mb-3">Price</h3>
                 <div className="space-y-4">
@@ -101,7 +98,6 @@ export default function Filters({
       <div className="hidden lg:block w-64 bg-white p-6 border-r border-gray-200">
         <h2 className="text-lg font-semibold mb-6 text-black">Filters</h2>
         
-        {/* Category Filter */}
         <div className="mb-8">
           <h3 className="text-sm font-medium text-gray-900 mb-3">Category</h3>
           <div className="space-y-2">
@@ -132,7 +128,6 @@ export default function Filters({
           </div>
         </div>
 
-        {/* Price Range Filter */}
         <div className="mb-8">
           <h3 className="text-sm font-medium text-gray-900 mb-3">Price</h3>
           <div className="space-y-4">

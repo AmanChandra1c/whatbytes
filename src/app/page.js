@@ -26,11 +26,9 @@ export default function Home() {
         
         setProducts(data.products);
         
-        // Extract unique categories
         const uniqueCategories = [...new Set(data.products.map(p => p.category))];
         setCategories(uniqueCategories);
         
-        // Find max price for range slider
         const maxProductPrice = Math.max(...data.products.map(p => p.price));
         setMaxPrice(maxProductPrice);
         setPriceRange([0, maxProductPrice]);
@@ -45,7 +43,6 @@ export default function Home() {
     fetchData();
   }, []);
 
-  // Sync URL params with filters
   useEffect(() => {
     const category = searchParams.get('category');
     const price = searchParams.get('price');
@@ -67,7 +64,6 @@ export default function Home() {
     }
   }, [searchParams, categories]);
 
-  // Update URL when filters change
   useEffect(() => {
     const params = new URLSearchParams();
     
@@ -87,20 +83,16 @@ export default function Home() {
     window.history.replaceState({}, '', newUrl);
   }, [selectedCategory, priceRange, searchQuery, maxPrice]);
 
-  // Filter products based on all criteria
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
-      // Category filter
       if (selectedCategory !== 'all' && product.category !== selectedCategory) {
         return false;
       }
       
-      // Price filter
       if (product.price < priceRange[0] || product.price > priceRange[1]) {
         return false;
       }
       
-      // Search filter (case-insensitive)
       if (searchQuery.trim() && 
           !product.title.toLowerCase().includes(searchQuery.toLowerCase())) {
         return false;
@@ -123,7 +115,6 @@ export default function Home() {
       <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       
       <div className="flex flex-col lg:flex-row">
-        {/* Sidebar Filters */}
         <Filters
           categories={categories}
           selectedCategory={selectedCategory}
@@ -133,7 +124,6 @@ export default function Home() {
           maxPrice={maxPrice}
         />
         
-        {/* Main Content */}
         <div className="flex-1 p-4 lg:p-6">
           <div className="mb-6">
             <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Product Listing</h1>
@@ -142,7 +132,6 @@ export default function Home() {
             </p>
           </div>
           
-          {/* Products Grid */}
           {filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
               {filteredProducts.map((product) => (

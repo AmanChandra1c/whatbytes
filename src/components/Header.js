@@ -12,9 +12,11 @@ export default function Header({ searchQuery, setSearchQuery }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="">
-            {/* <Link href="/"> */}
-              <img className="w-16 h-16 rounded-full cursor-pointer" src="/whatbytes_logo.jfif" alt="WhatBytes" />  
-            {/* </Link> */}
+            <img
+              className="w-16 h-16 rounded-full cursor-pointer"
+              src="/whatbytes_logo.jfif"
+              alt="WhatBytes"
+            />
           </div>
 
           <div className="flex-1 max-w-lg mx-8">
@@ -32,8 +34,11 @@ export default function Header({ searchQuery, setSearchQuery }) {
             </div>
           </div>
 
-          <div className="flex-shrink-0">
-            <Link href="/cart" className="relative inline-flex items-center px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors">
+          <div className="flex-shrink-0 flex items-center space-x-4">
+            <Link
+              href="/cart"
+              className="relative inline-flex items-center px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors"
+            >
               <ShoppingCart className="h-5 w-5" />
               <span className="ml-2">Cart</span>
               {totalItems > 0 && (
@@ -42,6 +47,13 @@ export default function Header({ searchQuery, setSearchQuery }) {
                 </span>
               )}
             </Link>
+          <div className="">
+            <img
+              className="w-12 h-12 rounded-full"
+              src="/avtar.png"
+              alt="WhatBytes"
+            />
+          </div>
           </div>
         </div>
       </div>

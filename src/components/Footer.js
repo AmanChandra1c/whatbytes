@@ -5,7 +5,6 @@ export default function Footer() {
     <footer className="bg-blue-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Filters Column */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Filters</h3>
             <ul className="space-y-2">
@@ -22,7 +21,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* About Us Column */}
           <div>
             <h3 className="text-lg font-semibold mb-4">About Us</h3>
             <ul className="space-y-2">
@@ -39,7 +37,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Follow Us Column */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
             <div className="flex space-x-4">
@@ -68,8 +65,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="mt-8 pt-8 border-t border-blue-800 text-center">
+        <div className="mt-8 pt-4 border-t border-blue-800 text-center">
           <p className="text-blue-200">
             ©2024 American
           </p>

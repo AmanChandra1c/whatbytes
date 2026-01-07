@@ -79,7 +79,6 @@ export default function ProductDetail() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -96,10 +95,8 @@ export default function ProductDetail() {
         </div>
       </header>
 
-      {/* Product Details */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Product Image */}
           <div className="bg-white rounded-lg p-8">
             <img
               src={product.thumbnail}
@@ -108,7 +105,6 @@ export default function ProductDetail() {
             />
           </div>
 
-          {/* Product Info */}
           <div className="bg-white rounded-lg p-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-4">
               {product.title}
@@ -156,7 +152,6 @@ export default function ProductDetail() {
               </p>
             </div>
 
-            {/* Quantity Selector */}
             <div className="mt-8">
               <h3 className="text-sm font-medium text-gray-900 mb-2">Quantity</h3>
               <div className="flex items-center space-x-3">
@@ -178,7 +173,6 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* Add to Cart Button */}
             <div className="mt-8">
               <button
                 onClick={handleAddToCart}
