@@ -1,65 +1,164 @@
-import Image from "next/image";
+'use client';
+import { useState, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Header from '@/components/Header';
+import Filters from '@/components/Filters';
+import ProductCard from '@/components/ProductCard';
+import Footer from '@/components/Footer';
 
 export default function Home() {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [maxPrice, setMaxPrice] = useState(1000);
+  
+  const searchParams = useSearchParams();
+
+  // Fetch products and categories
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://dummyjson.com/products');
+        const data = await response.json();
+        
+        setProducts(data.products);
+        
+        // Extract unique categories
+        const uniqueCategories = [...new Set(data.products.map(p => p.category))];
+        setCategories(uniqueCategories);
+        
+        // Find max price for range slider
+        const maxProductPrice = Math.max(...data.products.map(p => p.price));
+        setMaxPrice(maxProductPrice);
+        setPriceRange([0, maxProductPrice]);
+        
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Sync URL params with filters
+  useEffect(() => {
+    const category = searchParams.get('category');
+    const price = searchParams.get('price');
+    const search = searchParams.get('search');
+
+    if (category && categories.includes(category)) {
+      setSelectedCategory(category);
+    }
+    
+    if (price) {
+      const [min, max] = price.split('-').map(Number);
+      if (!isNaN(min) && !isNaN(max)) {
+        setPriceRange([min, max]);
+      }
+    }
+    
+    if (search) {
+      setSearchQuery(search);
+    }
+  }, [searchParams, categories]);
+
+  // Update URL when filters change
+  useEffect(() => {
+    const params = new URLSearchParams();
+    
+    if (selectedCategory !== 'all') {
+      params.set('category', selectedCategory);
+    }
+    
+    if (priceRange[0] !== 0 || priceRange[1] !== maxPrice) {
+      params.set('price', `${priceRange[0]}-${priceRange[1]}`);
+    }
+    
+    if (searchQuery.trim()) {
+      params.set('search', searchQuery.trim());
+    }
+    
+    const newUrl = params.toString() ? `?${params.toString()}` : '';
+    window.history.replaceState({}, '', newUrl);
+  }, [selectedCategory, priceRange, searchQuery, maxPrice]);
+
+  // Filter products based on all criteria
+  const filteredProducts = useMemo(() => {
+    return products.filter(product => {
+      // Category filter
+      if (selectedCategory !== 'all' && product.category !== selectedCategory) {
+        return false;
+      }
+      
+      // Price filter
+      if (product.price < priceRange[0] || product.price > priceRange[1]) {
+        return false;
+      }
+      
+      // Search filter (case-insensitive)
+      if (searchQuery.trim() && 
+          !product.title.toLowerCase().includes(searchQuery.toLowerCase())) {
+        return false;
+      }
+      
+      return true;
+    });
+  }, [products, selectedCategory, priceRange, searchQuery]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-lg">Loading products...</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="min-h-screen bg-gray-50">
+      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      
+      <div className="flex flex-col lg:flex-row">
+        {/* Sidebar Filters */}
+        <Filters
+          categories={categories}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          priceRange={priceRange}
+          setPriceRange={setPriceRange}
+          maxPrice={maxPrice}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+        
+        {/* Main Content */}
+        <div className="flex-1 p-4 lg:p-6">
+          <div className="mb-6">
+            <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Product Listing</h1>
+            <p className="text-gray-600 mt-1">
+              {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} found
+            </p>
+          </div>
+          
+          {/* Products Grid */}
+          {filteredProducts.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+              {filteredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No products found</h3>
+              <p className="text-gray-600">Try adjusting your filters or search terms</p>
+            </div>
+          )}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </div>
+      
+      <Footer />
     </div>
   );
 }
